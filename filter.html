@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Data</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <style>
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+    
+        h2 {
+            color: #6e4e3d;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            border: 2px solid #6e4e3d;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #6e4e3d;
+            background-color: #f0e0d6;
+        }
+    
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4e352f;
+        }
+    
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #f5f5f5;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        th {
+            background-color: #6e4e3d;
+            color: white;
+            padding: 12px 20px;
+            text-align: left;
+        }
+    
+        td {
+            background-color: #f0e0d6;
+            color: #6e4e3d;
+            padding: 10px 20px;
+            text-align: left;
+        }
+    
+        tr:nth-child(even) td {
+            background-color: #e1d2b8;
+        }
+    
+        tr:hover td {
+            background-color: #d1b697;
+            cursor: pointer;
+        }
+    
+        @media (max-width: 768px) {
+            table {
+                width: 100%;
+            }
+    
+            input[type="text"] {
+                width: 80%;
+            }
+        }
+    </style>
+    
+
+    <h2>Interactive Table Filter</h2>
+    <input type="text" id="tableSearch" placeholder="Search for Name, Age, or City...">
+
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table rows will be dynamically generated here -->
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function () {
+            var tableData = [
+                { name: "Nisha", age: 25, city: "New York" },
+                { name: "Leena", age: 30, city: "Los Angeles" },
+                { name: "Sonu", age: 22, city: "Chicago" },
+                { name: "Lisa", age: 27, city: "San Francisco" },
+                { name: "Ved", age: 26, city: "Busan" },
+                { name: "Deep", age: 27, city: "Mumbai" },
+                { name: "Rutvik", age: 29, city: "Hong Kong" },
+                { name: "Harsh", age: 25, city: "Queensland" },
+                { name: "Shubham", age: 26, city: "Adelaide" },
+                { name: "Dev", age: 24, city: "Melbourne" },
+                { name: "Jay", age: 21, city: "Paris" }
+            ];
+
+            function renderTable(filteredData) {
+                var tbody = $("#myTable tbody");
+                tbody.empty(); 
+
+                for (var i = 0; i < filteredData.length; i++) {
+                    var row = filteredData[i];
+                    var tr = $("<tr>");
+                    tr.append("<td>" + row.name + "</td>");
+                    tr.append("<td>" + row.age + "</td>");
+                    tr.append("<td>" + row.city + "</td>");
+                    tbody.append(tr);
+                }
+            }
+
+            renderTable(tableData);
+
+            $("#tableSearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase(); 
+
+                var filteredData = tableData.filter(function (row) {
+                    return row.name.toLowerCase().includes(value) ||
+                        row.age.toString().includes(value) ||
+                        row.city.toLowerCase().includes(value);
+                });
+
+                // Re-render the table with filtered data
+                renderTable(filteredData);
+            });
+        });
+    </script>
+</body>
+
+</html>
